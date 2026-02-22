@@ -1,6 +1,5 @@
-// Функция для обновления всех сумм в таблице
 function calculateAllTotals() {
-    console.log('Пересчет сумм (поддержка дробных чисел)...');
+    console.log('Пересчет сумм (поддержка дробных и отрицательных)...');
     
     // Находим все строки с игроками (все tr в tbody)
     const rows = document.querySelectorAll('tbody tr');
@@ -14,14 +13,12 @@ function calculateAllTotals() {
         let totalMain = 0;
         let totalBonus = 0;
         
-        // Считаем основные баллы (с поддержкой дробных чисел)
+        // Считаем основные баллы (с поддержкой дробных и отрицательных)
         mainCells.forEach(cell => {
-            // Извлекаем число из текста ячейки (игнорируем иконки)
             const cellText = cell.innerText || cell.textContent;
-            // Ищем число (целое или дробное) в тексте
-            const numberMatch = cellText.match(/\d+[,.]?\d*/);
+            // Ищем число (целое или дробное, может быть с минусом)
+            const numberMatch = cellText.match(/-?\d+[,.]?\d*/);
             if (numberMatch) {
-                // Заменяем запятую на точку для парсинга
                 const value = parseFloat(numberMatch[0].replace(',', '.'));
                 if (!isNaN(value)) {
                     totalMain += value;
@@ -29,10 +26,10 @@ function calculateAllTotals() {
             }
         });
         
-        // Считаем бонусные баллы (с поддержкой дробных чисел)
+        // Считаем бонусные баллы (с поддержкой дробных и отрицательных)
         bonusCells.forEach(cell => {
             const cellText = cell.innerText || cell.textContent;
-            const numberMatch = cellText.match(/\d+[,.]?\d*/);
+            const numberMatch = cellText.match(/-?\d+[,.]?\d*/);
             if (numberMatch) {
                 const value = parseFloat(numberMatch[0].replace(',', '.'));
                 if (!isNaN(value)) {
@@ -41,17 +38,17 @@ function calculateAllTotals() {
             }
         });
         
-        // Округляем до двух знаков после запятой для красоты
+        // Округляем до двух знаков после запятой
         totalMain = Math.round(totalMain * 100) / 100;
         totalBonus = Math.round(totalBonus * 100) / 100;
         const grandTotal = Math.round((totalMain + totalBonus) * 100) / 100;
         
-        // Находим итоговые ячейки в этой строке
+        // Находим итоговые ячейки
         const totalMainCell = row.querySelector('td.total-main');
         const totalBonusCell = row.querySelector('td.total-bonus');
         const grandTotalCell = row.querySelector('td.grand-total');
         
-        // Обновляем значения (форматируем: целые числа без .0, дробные с точкой)
+        // Обновляем значения
         if (totalMainCell) {
             totalMainCell.textContent = formatNumber(totalMain);
         }
@@ -62,11 +59,9 @@ function calculateAllTotals() {
             grandTotalCell.textContent = formatNumber(grandTotal);
         }
         
-        // Для отладки (можно убрать)
         console.log(`Игрок ${index + 1}: осн=${totalMain}, бон=${totalBonus}, всего=${grandTotal}`);
     });
     
-    // Обновляем статистику в подвале
     updateFooterStats();
 }
 
@@ -290,3 +285,326 @@ document.addEventListener('DOMContentLoaded', function() {
 window.recalculate = function() {
     calculateAllTotals();
 };
+
+
+// Функция для подсветки игроков по сумме баллов (градация)
+function highlightPlayersByScore() {
+    console.log('Подсвечиваем игроков по сумме баллов...');
+    
+    // Находим все итоговые ячейки
+    const grandTotalCells = document.querySelectorAll('td.grand-total');
+    let scores = [];
+    
+    // Собираем все суммы
+    grandTotalCells.forEach(cell => {
+        const cellText = cell.textContent.replace(',', '.');
+        const value = parseFloat(cellText);
+        if (!isNaN(value)) {
+            scores.push(value);
+        }
+    });
+    
+    if (scores.length === 0) return;
+    
+    // Находим min, max и среднее
+    const maxScore = Math.max(...scores);
+    const minScore = Math.min(...scores);
+    const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
+    const range = maxScore - minScore;
+    
+    console.log(`Диапазон: от ${minScore} до ${maxScore}, среднее: ${avgScore.toFixed(2)}`);
+    
+    // Удаляем старую подсветку
+    document.querySelectorAll('tr').forEach(row => {
+        row.classList.remove(
+            'score-legendary', 'score-gold', 'score-silver', 
+            'score-bronze', 'score-good', 'score-medium', 
+            'score-low', 'score-minimal'
+        );
+    });
+    
+    // Подсвечиваем каждую строку в зависимости от суммы
+    grandTotalCells.forEach((cell, index) => {
+        const row = cell.closest('tr');
+        if (!row) return;
+        
+        const cellText = cell.textContent.replace(',', '.');
+        const score = parseFloat(cellText);
+        
+        // Определяем категорию
+        if (score === maxScore) {
+            row.classList.add('score-legendary'); // Победители (особая подсветка)
+        } else if (score >= maxScore - range * 0.2) {
+            row.classList.add('score-gold'); // Близкие к лидерам (топ-20% диапазона)
+        } else if (score >= maxScore - range * 0.4) {
+            row.classList.add('score-silver'); // Выше среднего
+        } else if (score >= avgScore) {
+            row.classList.add('score-bronze'); // Чуть выше среднего
+        } else if (score >= avgScore - range * 0.2) {
+            row.classList.add('score-good'); // Чуть ниже среднего
+        } else if (score >= minScore + range * 0.3) {
+            row.classList.add('score-medium'); // Ниже среднего
+        } else if (score > minScore) {
+            row.classList.add('score-low'); // Близкие к минимуму
+        } else {
+            row.classList.add('score-minimal'); // Минимум
+        }
+    });
+    
+    // Добавляем легенду (если её нет)
+    addScoreLegend();
+    
+    console.log('Подсветка применена!');
+}
+
+// Функция для создания легенды градации
+function addScoreLegend() {
+    // Проверяем, есть ли уже легенда
+    if (document.querySelector('.score-legend')) return;
+    
+    const footer = document.querySelector('.tournament-footer');
+    if (!footer) return;
+    
+    const legendDiv = document.createElement('div');
+    legendDiv.className = 'score-legend';
+    legendDiv.innerHTML = `
+    `;
+    
+    // Стили для легенды (добавим прямо здесь)
+    const style = document.createElement('style');
+    style.textContent = `
+        .score-legend {
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-size: 0.85em;
+            border: 1px solid #e2e8f0;
+            width: 100%;
+        }
+        
+        .legend-title {
+            font-weight: 600;
+            color: #4a5568;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .legend-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 20px;
+        }
+        
+        .legend-items span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 2px 8px;
+            border-radius: 20px;
+            color: #2d3748;
+        }
+        
+        .legend-item-legendary { 
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+            color: #78350f !important;
+            font-weight: 600;
+        }
+        .legend-item-gold { background: #fef3c7; color: #92400e; }
+        .legend-item-silver { background: #f1f5f9; color: #334155; }
+        .legend-item-bronze { background: #ffedd5; color: #9a3412; }
+        .legend-item-good { background: #dcfce7; color: #166534; }
+        .legend-item-medium { background: #dbeafe; color: #1e40af; }
+        .legend-item-low { background: #fff1f2; color: #9f1239; }
+        .legend-item-minimal { background: #e2e8f0; color: #334155; }
+        
+        /* Стили для подсветки строк */
+        tr.score-legendary {
+            background: linear-gradient(90deg, #fef9c3, #fef08a) !important;
+            font-weight: 700;
+            border-left: 5px solid #fbbf24;
+            box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+        }
+        
+        tr.score-legendary td:first-child {
+            background: linear-gradient(90deg, #fef9c3, #fef08a) !important;
+            font-weight: 700;
+        }
+        
+        tr.score-gold {
+            background-color: #fef3c7 !important;
+        }
+        
+        tr.score-gold td:first-child {
+            background-color: #fef3c7 !important;
+        }
+        
+        tr.score-silver {
+            background-color: #f1f5f9 !important;
+        }
+        
+        tr.score-silver td:first-child {
+            background-color: #f1f5f9 !important;
+        }
+        
+        tr.score-bronze {
+            background-color: #ffedd5 !important;
+        }
+        
+        tr.score-bronze td:first-child {
+            background-color: #ffedd5 !important;
+        }
+        
+        tr.score-good {
+            background-color: #dcfce7 !important;
+        }
+        
+        tr.score-good td:first-child {
+            background-color: #dcfce7 !important;
+        }
+        
+        tr.score-medium {
+            background-color: #dbeafe !important;
+        }
+        
+        tr.score-medium td:first-child {
+            background-color: #dbeafe !important;
+        }
+        
+        tr.score-low {
+            background-color: #fff1f2 !important;
+        }
+        
+        tr.score-low td:first-child {
+            background-color: #fff1f2 !important;
+        }
+        
+        tr.score-minimal {
+            background-color: #e2e8f0 !important;
+        }
+        
+        tr.score-minimal td:first-child {
+            background-color: #e2e8f0 !important;
+        }
+        
+        /* Анимация для победителей */
+        @keyframes winnerPulse {
+            0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+        }
+        
+        tr.score-legendary {
+            animation: winnerPulse 2s infinite;
+        }
+    `;
+    
+    document.head.appendChild(style);
+    footer.parentNode.insertBefore(legendDiv, footer.nextSibling);
+}
+
+// Функция для сброса подсветки
+function resetHighlight() {
+    document.querySelectorAll('tr').forEach(row => {
+        row.classList.remove(
+            'score-legendary', 'score-gold', 'score-silver', 
+            'score-bronze', 'score-good', 'score-medium', 
+            'score-low', 'score-minimal'
+        );
+    });
+    
+    // Удаляем легенду
+    const legend = document.querySelector('.score-legend');
+    if (legend) legend.remove();
+    
+    console.log('Подсветка сброшена');
+}
+
+// Расширяем функцию обновления статистики
+const originalUpdateFooterStats = updateFooterStats;
+updateFooterStats = function() {
+    originalUpdateFooterStats();
+    // Автоматически подсвечиваем после обновления статистики
+    highlightPlayersByScore();
+};
+
+// Добавляем кнопки управления в подвал
+function addHighlightButtons() {
+    const footer = document.querySelector('.tournament-footer');
+    if (!footer) return;
+    
+    // Создаём контейнер для кнопок
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'highlight-buttons';
+    buttonContainer.style.display = 'flex';
+    buttonContainer.style.gap = '10px';
+    buttonContainer.style.marginTop = '10px';
+    buttonContainer.style.flexWrap = 'wrap';
+    
+    // Кнопка подсветки
+    const highlightBtn = document.createElement('button');
+    highlightBtn.innerHTML = '<i class="fas fa-highlighter"></i> Подсветить градацию';
+    highlightBtn.onclick = highlightPlayersByScore;
+    highlightBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+    highlightBtn.style.color = 'white';
+    highlightBtn.style.border = 'none';
+    highlightBtn.style.padding = '8px 16px';
+    highlightBtn.style.borderRadius = '30px';
+    highlightBtn.style.fontSize = '0.9em';
+    highlightBtn.style.cursor = 'pointer';
+    highlightBtn.style.display = 'flex';
+    highlightBtn.style.alignItems = 'center';
+    highlightBtn.style.gap = '6px';
+    
+    // Кнопка сброса
+    const resetBtn = document.createElement('button');
+    resetBtn.innerHTML = '<i class="fas fa-undo"></i> Сбросить подсветку';
+    resetBtn.onclick = resetHighlight;
+    resetBtn.style.background = 'linear-gradient(135deg, #94a3b8, #64748b)';
+    resetBtn.style.color = 'white';
+    resetBtn.style.border = 'none';
+    resetBtn.style.padding = '8px 16px';
+    resetBtn.style.borderRadius = '30px';
+    resetBtn.style.fontSize = '0.9em';
+    resetBtn.style.cursor = 'pointer';
+    resetBtn.style.display = 'flex';
+    resetBtn.style.alignItems = 'center';
+    resetBtn.style.gap = '6px';
+    
+    // Эффекты наведения
+    [highlightBtn, resetBtn].forEach(btn => {
+        btn.onmouseover = function() {
+            this.style.opacity = '0.9';
+            this.style.transform = 'scale(1.02)';
+        };
+        btn.onmouseout = function() {
+            this.style.opacity = '1';
+            this.style.transform = 'scale(1)';
+        };
+    });
+    
+    buttonContainer.appendChild(highlightBtn);
+    buttonContainer.appendChild(resetBtn);
+    footer.appendChild(buttonContainer);
+}
+
+// Обновляем DOMContentLoaded
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Страница загружена, начинаем расчет...');
+    calculateAllTotals();
+    setTimeout(() => {
+        addRecalcButton();
+        addHighlightButtons();
+        // Автоматическая подсветка при загрузке
+        setTimeout(highlightPlayersByScore, 200);
+    }, 100);
+});
+
+// Добавляем функции в глобальную область видимости
+window.highlightPlayers = highlightPlayersByScore;
+window.resetHighlight = resetHighlight;
