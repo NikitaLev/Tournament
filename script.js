@@ -1,22 +1,22 @@
 function calculateAllTotals() {
-    console.log('Пересчет сумм (поддержка дробных и отрицательных)...');
+    console.log('Пересчет сумм (с поддержкой Ci в бейджах)...');
     
-    // Находим все строки с игроками (все tr в tbody)
+    // Находим все строки с игроками
     const rows = document.querySelectorAll('tbody tr');
     
     rows.forEach((row, index) => {
-        // Находим все ячейки с основными баллами (score-main) в этой строке
+        // Находим все ячейки с основными баллами
         const mainCells = row.querySelectorAll('td.score-main');
-        // Находим все ячейки с бонусными баллами (score-bonus) в этой строке
+        // Находим все ячейки с бонусными баллами
         const bonusCells = row.querySelectorAll('td.score-bonus');
         
         let totalMain = 0;
         let totalBonus = 0;
+        let totalCi = 0;
         
-        // Считаем основные баллы (с поддержкой дробных и отрицательных)
+        // Считаем основные баллы
         mainCells.forEach(cell => {
             const cellText = cell.innerText || cell.textContent;
-            // Ищем число (целое или дробное, может быть с минусом)
             const numberMatch = cellText.match(/-?\d+[,.]?\d*/);
             if (numberMatch) {
                 const value = parseFloat(numberMatch[0].replace(',', '.'));
@@ -26,26 +26,63 @@ function calculateAllTotals() {
             }
         });
         
-        // Считаем бонусные баллы (с поддержкой дробных и отрицательных)
+        // Считаем бонусные баллы и Ci из бейджей
         bonusCells.forEach(cell => {
-            const cellText = cell.innerText || cell.textContent;
-            const numberMatch = cellText.match(/-?\d+[,.]?\d*/);
-            if (numberMatch) {
-                const value = parseFloat(numberMatch[0].replace(',', '.'));
+            // Получаем текст ячейки, исключая содержимое ci-badge для основного числа
+            let cellText = '';
+            cell.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    cellText += node.textContent;
+                }
+            });
+            
+            // Если нет текстовых узлов, используем весь текст
+            if (!cellText.trim()) {
+                cellText = cell.innerText || cell.textContent;
+            }
+            
+            // Ищем основное число бонуса
+            const bonusMatch = cellText.match(/-?\d+[,.]?\d*/);
+            if (bonusMatch) {
+                const value = parseFloat(bonusMatch[0].replace(',', '.'));
                 if (!isNaN(value)) {
                     totalBonus += value;
                 }
             }
+            
+            // Ищем Ci в бейдже
+            const ciBadge = cell.querySelector('.ci-badge');
+            if (ciBadge) {
+                const ciText = ciBadge.innerText || ciBadge.textContent;
+                // Убираем текст "Ci" если есть, оставляем только число
+                const ciNumberMatch = ciText.match(/-?\d+[,.]?\d*/);
+                if (ciNumberMatch) {
+                    const ciValue = parseFloat(ciNumberMatch[0].replace(',', '.'));
+                    if (!isNaN(ciValue)) {
+                        totalCi += ciValue;
+                        
+                        // Добавляем классы для стилизации бейджа
+                        ciBadge.classList.remove('negative', 'zero');
+                        if (ciValue < 0) {
+                            ciBadge.classList.add('negative');
+                        } else if (ciValue === 0) {
+                            ciBadge.classList.add('zero');
+                        }
+                    }
+                }
+            }
         });
         
-        // Округляем до двух знаков после запятой
+        // Округляем значения
         totalMain = Math.round(totalMain * 100) / 100;
         totalBonus = Math.round(totalBonus * 100) / 100;
-        const grandTotal = Math.round((totalMain + totalBonus) * 100) / 100;
+        totalCi = Math.round(totalCi * 1000) / 1000; // Ci до 3 знаков
+        const grandTotal = Math.round((totalMain + totalBonus + totalCi) * 100) / 100;
         
         // Находим итоговые ячейки
         const totalMainCell = row.querySelector('td.total-main');
         const totalBonusCell = row.querySelector('td.total-bonus');
+        const totalCiCell = row.querySelector('td.total-ci');
         const grandTotalCell = row.querySelector('td.grand-total');
         
         // Обновляем значения
@@ -55,14 +92,28 @@ function calculateAllTotals() {
         if (totalBonusCell) {
             totalBonusCell.textContent = formatNumber(totalBonus);
         }
+        if (totalCiCell) {
+            totalCiCell.textContent = formatCi(totalCi); // Специальное форматирование для Ci
+        }
         if (grandTotalCell) {
             grandTotalCell.textContent = formatNumber(grandTotal);
         }
         
-        console.log(`Игрок ${index + 1}: осн=${totalMain}, бон=${totalBonus}, всего=${grandTotal}`);
+        console.log(`Игрок ${index + 1}: осн=${totalMain}, бон=${totalBonus}, Ci=${totalCi}, всего=${grandTotal}`);
     });
     
     updateFooterStats();
+}
+
+// Специальное форматирование для Ci (всегда 2-3 знака)
+function formatCi(num) {
+    if (num === 0) return '0';
+    // Если число очень маленькое, показываем 3 знака
+    if (Math.abs(num) < 0.1) {
+        return num.toFixed(3).replace('.', ',');
+    }
+    // Иначе 2 знака
+    return num.toFixed(2).replace('.', ',');
 }
 
 // Функция для форматирования чисел (убирает .0 у целых чисел)
@@ -75,8 +126,6 @@ function formatNumber(num) {
         return num.toFixed(2).replace('.', ','); // Меняем точку на запятую для красоты
     }
 }
-
-// Функция для обновления статистики в подвале
 function updateFooterStats() {
     // Находим все итоговые ячейки
     const grandTotalCells = document.querySelectorAll('td.grand-total');
@@ -93,11 +142,10 @@ function updateFooterStats() {
     });
     
     // Находим всех игроков с максимальной суммой
-    grandTotalCells.forEach((cell, index) => {
+    grandTotalCells.forEach((cell) => {
         const cellText = cell.textContent.replace(',', '.');
         const value = parseFloat(cellText);
-        if (Math.abs(value - maxTotal) < 0.001) { // Сравнение с учётом погрешности
-            // Получаем имя игрока из первой ячейки в этой строке
+        if (Math.abs(value - maxTotal) < 0.001) {
             const row = cell.closest('tr');
             const nameCell = row.querySelector('td.player-name');
             if (nameCell) {
@@ -117,11 +165,32 @@ function updateFooterStats() {
     if (winnerSpan) {
         winnerSpan.textContent = winners.join(', ');
     }
+    
+    // Добавляем информацию о сумме Ci (опционально)
+    updateCiStats();
 }
 
-// Функция для проверки конкретного игрока
+// Новая функция для статистики по Ci
+function updateCiStats() {
+    const ciCells = document.querySelectorAll('td.total-ci');
+    let totalCiSum = 0;
+    let maxCi = -Infinity;
+    let minCi = Infinity;
+    
+    ciCells.forEach(cell => {
+        const cellText = cell.textContent.replace(',', '.');
+        const value = parseFloat(cellText);
+        if (!isNaN(value)) {
+            totalCiSum += value;
+            if (value > maxCi) maxCi = value;
+            if (value < minCi) minCi = value;
+        }
+    });
+    
+    console.log(`Статистика Ci: сумма всех Ci=${totalCiSum.toFixed(3)}, макс=${maxCi}, мин=${minCi}`);
+}
+
 window.checkPlayer = function(playerNumber) {
-    // playerNumber от 1 до 10
     const rows = document.querySelectorAll('tbody tr');
     if (playerNumber >= 1 && playerNumber <= rows.length) {
         const row = rows[playerNumber - 1];
@@ -130,20 +199,50 @@ window.checkPlayer = function(playerNumber) {
         
         console.log(`=== Игрок ${playerNumber} ===`);
         console.log('Основные баллы:');
+        let mainSum = 0;
         mainCells.forEach((cell, i) => {
-            console.log(`  Игра ${i+1}: ${cell.innerText}`);
-        });
-        console.log('Бонусные баллы:');
-        bonusCells.forEach((cell, i) => {
-            console.log(`  Игра ${i+1}: ${cell.innerText}`);
+            const val = parseFloat((cell.innerText || cell.textContent).match(/-?\d+[,.]?\d*/)?.[0].replace(',', '.') || '0');
+            mainSum += val;
+            console.log(`  Игра ${i+1}: ${cell.innerText} (${val})`);
         });
         
-        // Показываем итоги
+        console.log('Бонусные баллы и Ci:');
+        let bonusSum = 0;
+        let ciSum = 0;
+        bonusCells.forEach((cell, i) => {
+            // Основной бонус (без учёта бейджа)
+            let bonusText = '';
+            cell.childNodes.forEach(node => {
+                if (node.nodeType === Node.TEXT_NODE) {
+                    bonusText += node.textContent;
+                }
+            });
+            if (!bonusText.trim()) {
+                bonusText = cell.innerText || cell.textContent;
+            }
+            
+            const bonusVal = parseFloat(bonusText.match(/-?\d+[,.]?\d*/)?.[0].replace(',', '.') || '0');
+            bonusSum += bonusVal;
+            
+            // Ci из бейджа
+            const ciBadge = cell.querySelector('.ci-badge');
+            let ciVal = 0;
+            if (ciBadge) {
+                const ciText = ciBadge.innerText || ciBadge.textContent;
+                ciVal = parseFloat(ciText.match(/-?\d+[,.]?\d*/)?.[0].replace(',', '.') || '0');
+                ciSum += ciVal;
+            }
+            
+            console.log(`  Игра ${i+1}: бонус=${bonusVal}, Ci=${ciVal} (${cell.innerHTML})`);
+        });
+        
         const totalMain = row.querySelector('td.total-main')?.textContent;
         const totalBonus = row.querySelector('td.total-bonus')?.textContent;
+        const totalCi = row.querySelector('td.total-ci')?.textContent;
         const grandTotal = row.querySelector('td.grand-total')?.textContent;
         
-        console.log(`\nИтоги: осн=${totalMain}, бон=${totalBonus}, всего=${grandTotal}`);
+        console.log(`\nСуммы вручную: осн=${mainSum}, бон=${bonusSum}, Ci=${ciSum}, всего=${mainSum + bonusSum + ciSum}`);
+        console.log(`Суммы в таблице: осн=${totalMain}, бон=${totalBonus}, Ci=${totalCi}, всего=${grandTotal}`);
     }
 };
 
