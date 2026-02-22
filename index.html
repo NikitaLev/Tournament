@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Турнир по Спортивной Мафии | 10 игр</title>
+    <!-- Подключаем шрифт Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <!-- Font Awesome для иконок -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Подключаем внешний CSS -->
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js"></script>
+</head>
+<body>
+    <div class="tournament-card">
+
+        <!-- Таблица -->
+        <div class="table-wrapper">
+            <table class="results-table">
+                <thead>
+                    <tr>
+                        <th>Игрок</th>
+                        <th colspan="2">Игра 1</th>
+                        <th colspan="2">Игра 2</th>
+                        <th colspan="2">Игра 3</th>
+                        <th colspan="2">Игра 4</th>
+                        <th colspan="2">Игра 5</th>
+                        <th colspan="2">Игра 6</th>
+                        <th colspan="2">Игра 7</th>
+                        <th colspan="2">Игра 8</th>
+                        <th colspan="2">Игра 9</th>
+                        <th colspan="2">Игра 10</th>
+                        <th>Осн</th>
+                        <th>Бон</th>
+                        <th>Всего</th>
+                    </tr>
+                    <tr class="sub-header">
+                        <th></th>
+                        <!-- Для каждой игры два подзаголовка -->
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th>осн</th><th>бон</th>
+                        <th></th><th></th><th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Игрок 1: Александр -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Александр
+                        </td>
+                        <!-- Игра 1: мафия (пистолет) -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги (суммы) -->
+                        <td class="total-main">39</td>
+                        <td class="total-bonus">16</td>
+                        <td class="grand-total">55</td>
+                    </tr>
+
+                    <!-- Игрок 2: Елена -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Елена
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">39</td>
+                        <td class="total-bonus">16</td>
+                        <td class="grand-total">55</td>
+                    </tr>
+
+                    <!-- Игрок 3: Дмитрий -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Дмитрий
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">39</td>
+                        <td class="total-bonus">16</td>
+                        <td class="grand-total">55</td>
+                    </tr>
+
+                    <!-- Игрок 4: Ольга -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Ольга
+                        </td>
+                        <!-- Игра 1: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">37</td>
+                        <td class="total-bonus">15</td>
+                        <td class="grand-total">52</td>
+                    </tr>
+
+                    <!-- Игрок 5: Максим -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Максим
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">34</td>
+                        <td class="total-bonus">13</td>
+                        <td class="grand-total">47</td>
+                    </tr>
+
+                    <!-- Игрок 6: Анна -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Анна
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">36</td>
+                        <td class="total-bonus">14</td>
+                        <td class="grand-total">50</td>
+                    </tr>
+
+                    <!-- Игрок 7: Сергей -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Сергей
+                        </td>
+                        <!-- Игра 1: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">36</td>
+                        <td class="total-bonus">14</td>
+                        <td class="grand-total">50</td>
+                    </tr>
+
+                    <!-- Игрок 8: Юлия -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Юлия
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">37</td>
+                        <td class="total-bonus">15</td>
+                        <td class="grand-total">52</td>
+                    </tr>
+
+                    <!-- Игрок 9: Павел -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Павел
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">36</td>
+                        <td class="total-bonus">14</td>
+                        <td class="grand-total">50</td>
+                    </tr>
+
+                    <!-- Игрок 10: Екатерина -->
+                    <tr>
+                        <td class="player-name">
+                            <i class="fas fa-user"></i> Екатерина
+                        </td>
+                        <!-- Игра 1: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 2: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 3: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 4: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 5: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 6: шериф -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 7: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 8: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 9: мирный -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Игра 10: мафия -->
+                        <td class="score-main">0</td>
+                        <td class="score-bonus">0</td>
+                        <!-- Итоги -->
+                        <td class="total-main">37</td>
+                        <td class="total-bonus">15</td>
+                        <td class="grand-total">52</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Подвал со статистикой (тоже вводится руками) -->
+        <div class="tournament-footer">
+            <div class="stats">
+                <div class="stats-item"><i class="fas fa-star"></i> Победитель: <span class="manual-stat"> </span></div>
+            </div>
+            <div class="legend">
+                <div class="legend-item"><i class="fas fa-gun"></i> Мафия</div>
+                <div class="legend-item"><i class="fas fa-star"></i> Шериф</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
