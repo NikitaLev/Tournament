@@ -1,6 +1,6 @@
 // Функция для обновления всех сумм в таблице
 function calculateAllTotals() {
-    console.log('Пересчет сумм...');
+    console.log('Пересчет сумм (поддержка дробных чисел)...');
     
     // Находим все строки с игроками (все tr в tbody)
     const rows = document.querySelectorAll('tbody tr');
@@ -14,48 +14,71 @@ function calculateAllTotals() {
         let totalMain = 0;
         let totalBonus = 0;
         
-        // Считаем основные баллы
+        // Считаем основные баллы (с поддержкой дробных чисел)
         mainCells.forEach(cell => {
             // Извлекаем число из текста ячейки (игнорируем иконки)
             const cellText = cell.innerText || cell.textContent;
-            // Ищем первое число в тексте (на случай если есть иконка)
-            const numberMatch = cellText.match(/\d+/);
+            // Ищем число (целое или дробное) в тексте
+            const numberMatch = cellText.match(/\d+[,.]?\d*/);
             if (numberMatch) {
-                totalMain += parseInt(numberMatch[0], 10);
+                // Заменяем запятую на точку для парсинга
+                const value = parseFloat(numberMatch[0].replace(',', '.'));
+                if (!isNaN(value)) {
+                    totalMain += value;
+                }
             }
         });
         
-        // Считаем бонусные баллы
+        // Считаем бонусные баллы (с поддержкой дробных чисел)
         bonusCells.forEach(cell => {
             const cellText = cell.innerText || cell.textContent;
-            const numberMatch = cellText.match(/\d+/);
+            const numberMatch = cellText.match(/\d+[,.]?\d*/);
             if (numberMatch) {
-                totalBonus += parseInt(numberMatch[0], 10);
+                const value = parseFloat(numberMatch[0].replace(',', '.'));
+                if (!isNaN(value)) {
+                    totalBonus += value;
+                }
             }
         });
+        
+        // Округляем до двух знаков после запятой для красоты
+        totalMain = Math.round(totalMain * 100) / 100;
+        totalBonus = Math.round(totalBonus * 100) / 100;
+        const grandTotal = Math.round((totalMain + totalBonus) * 100) / 100;
         
         // Находим итоговые ячейки в этой строке
         const totalMainCell = row.querySelector('td.total-main');
         const totalBonusCell = row.querySelector('td.total-bonus');
         const grandTotalCell = row.querySelector('td.grand-total');
         
-        // Обновляем значения
+        // Обновляем значения (форматируем: целые числа без .0, дробные с точкой)
         if (totalMainCell) {
-            totalMainCell.textContent = totalMain;
+            totalMainCell.textContent = formatNumber(totalMain);
         }
         if (totalBonusCell) {
-            totalBonusCell.textContent = totalBonus;
+            totalBonusCell.textContent = formatNumber(totalBonus);
         }
         if (grandTotalCell) {
-            grandTotalCell.textContent = totalMain + totalBonus;
+            grandTotalCell.textContent = formatNumber(grandTotal);
         }
         
         // Для отладки (можно убрать)
-        console.log(`Игрок ${index + 1}: осн=${totalMain}, бон=${totalBonus}, всего=${totalMain + totalBonus}`);
+        console.log(`Игрок ${index + 1}: осн=${totalMain}, бон=${totalBonus}, всего=${grandTotal}`);
     });
     
     // Обновляем статистику в подвале
     updateFooterStats();
+}
+
+// Функция для форматирования чисел (убирает .0 у целых чисел)
+function formatNumber(num) {
+    // Проверяем, является ли число целым
+    if (Number.isInteger(num)) {
+        return num.toString();
+    } else {
+        // Для дробных оставляем два знака после запятой
+        return num.toFixed(2).replace('.', ','); // Меняем точку на запятую для красоты
+    }
 }
 
 // Функция для обновления статистики в подвале
@@ -67,16 +90,18 @@ function updateFooterStats() {
     
     // Находим максимальную сумму
     grandTotalCells.forEach(cell => {
-        const value = parseInt(cell.textContent, 10);
-        if (value > maxTotal) {
+        const cellText = cell.textContent.replace(',', '.');
+        const value = parseFloat(cellText);
+        if (!isNaN(value) && value > maxTotal) {
             maxTotal = value;
         }
     });
     
     // Находим всех игроков с максимальной суммой
     grandTotalCells.forEach((cell, index) => {
-        const value = parseInt(cell.textContent, 10);
-        if (value === maxTotal) {
+        const cellText = cell.textContent.replace(',', '.');
+        const value = parseFloat(cellText);
+        if (Math.abs(value - maxTotal) < 0.001) { // Сравнение с учётом погрешности
             // Получаем имя игрока из первой ячейки в этой строке
             const row = cell.closest('tr');
             const nameCell = row.querySelector('td.player-name');
@@ -92,63 +117,12 @@ function updateFooterStats() {
     const winnerSpan = document.querySelector('.stats-item:last-child .manual-stat');
     
     if (maxScoreSpan) {
-        maxScoreSpan.textContent = maxTotal;
+        maxScoreSpan.textContent = formatNumber(maxTotal);
     }
     if (winnerSpan) {
         winnerSpan.textContent = winners.join(', ');
     }
 }
-
-// Функция для очистки иконок из ячеек (если нужно)
-function cleanCellIcons() {
-    const mainCells = document.querySelectorAll('td.score-main');
-    const bonusCells = document.querySelectorAll('td.score-bonus');
-    
-    // Обрабатываем ячейки с основными баллами
-    mainCells.forEach(cell => {
-        const html = cell.innerHTML;
-        // Если есть иконка, оставляем только число
-        if (html.includes('<i')) {
-            const numberMatch = html.match(/\d+/);
-            if (numberMatch) {
-                cell.innerHTML = numberMatch[0];
-            }
-        }
-    });
-    
-    // Обрабатываем ячейки с бонусными баллами
-    bonusCells.forEach(cell => {
-        const html = cell.innerHTML;
-        if (html.includes('<i')) {
-            const numberMatch = html.match(/\d+/);
-            if (numberMatch) {
-                cell.innerHTML = numberMatch[0];
-            }
-        }
-    });
-}
-
-// Функция для добавления иконок обратно (если нужно)
-function addRoleIcons() {
-    // Здесь можно добавить логику для расстановки иконок по ролям
-    // Но пока оставим как есть
-}
-
-// Функция для форматирования чисел (добавляет ведущие нули и т.д.)
-function formatNumber(num) {
-    return num.toString();
-}
-
-// Автоматический пересчет при загрузке страницы
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('Страница загружена, начинаем расчет...');
-    calculateAllTotals();
-});
-
-// Функция для ручного пересчета (можно вызвать из консоли)
-window.recalculate = function() {
-    calculateAllTotals();
-};
 
 // Функция для проверки конкретного игрока
 window.checkPlayer = function(playerNumber) {
@@ -168,6 +142,13 @@ window.checkPlayer = function(playerNumber) {
         bonusCells.forEach((cell, i) => {
             console.log(`  Игра ${i+1}: ${cell.innerText}`);
         });
+        
+        // Показываем итоги
+        const totalMain = row.querySelector('td.total-main')?.textContent;
+        const totalBonus = row.querySelector('td.total-bonus')?.textContent;
+        const grandTotal = row.querySelector('td.grand-total')?.textContent;
+        
+        console.log(`\nИтоги: осн=${totalMain}, бон=${totalBonus}, всего=${grandTotal}`);
     }
 };
 
@@ -194,8 +175,16 @@ window.exportToCSV = function() {
         const bonusCells = row.querySelectorAll('td.score-bonus');
         
         for (let i = 0; i < 10; i++) {
-            const mainVal = mainCells[i] ? (mainCells[i].innerText || mainCells[i].textContent).match(/\d+/)[0] : '0';
-            const bonusVal = bonusCells[i] ? (bonusCells[i].innerText || bonusCells[i].textContent).match(/\d+/)[0] : '0';
+            // Извлекаем числа с поддержкой дробных
+            const mainText = mainCells[i] ? (mainCells[i].innerText || mainCells[i].textContent) : '0';
+            const bonusText = bonusCells[i] ? (bonusCells[i].innerText || bonusCells[i].textContent) : '0';
+            
+            const mainMatch = mainText.match(/\d+[,.]?\d*/);
+            const bonusMatch = bonusText.match(/\d+[,.]?\d*/);
+            
+            const mainVal = mainMatch ? mainMatch[0].replace(',', '.') : '0';
+            const bonusVal = bonusMatch ? bonusMatch[0].replace(',', '.') : '0';
+            
             csv += `${mainVal},${bonusVal},`;
         }
         
@@ -204,7 +193,7 @@ window.exportToCSV = function() {
         const totalBonus = row.querySelector('td.total-bonus')?.textContent || '0';
         const grandTotal = row.querySelector('td.grand-total')?.textContent || '0';
         
-        csv += `${totalMain},${totalBonus},${grandTotal}\n`;
+        csv += `${totalMain.replace(',', '.')},${totalBonus.replace(',', '.')},${grandTotal.replace(',', '.')}\n`;
     });
     
     console.log('=== CSV данные ===');
@@ -224,10 +213,39 @@ window.exportToCSV = function() {
     return csv;
 };
 
-// Добавляем кнопку для пересчета (опционально)
+// Функция для очистки иконок из ячеек (если нужно)
+function cleanCellIcons() {
+    const mainCells = document.querySelectorAll('td.score-main');
+    const bonusCells = document.querySelectorAll('td.score-bonus');
+    
+    // Обрабатываем ячейки с основными баллами
+    mainCells.forEach(cell => {
+        const html = cell.innerHTML;
+        // Если есть иконка, оставляем только число
+        if (html.includes('<i')) {
+            const numberMatch = html.match(/\d+[,.]?\d*/);
+            if (numberMatch) {
+                cell.innerHTML = numberMatch[0];
+            }
+        }
+    });
+    
+    // Обрабатываем ячейки с бонусными баллами
+    bonusCells.forEach(cell => {
+        const html = cell.innerHTML;
+        if (html.includes('<i')) {
+            const numberMatch = html.match(/\d+[,.]?\d*/);
+            if (numberMatch) {
+                cell.innerHTML = numberMatch[0];
+            }
+        }
+    });
+}
+
+// Добавляем кнопку для пересчета
 function addRecalcButton() {
     const footer = document.querySelector('.tournament-footer');
-    if (footer) {
+    if (footer && !document.querySelector('.btn-recalculate')) {
         const button = document.createElement('button');
         button.className = 'btn-recalculate';
         button.innerHTML = '<i class="fas fa-calculator"></i> Пересчитать суммы';
@@ -261,7 +279,14 @@ function addRecalcButton() {
     }
 }
 
-// Добавляем кнопку после загрузки страницы
+// Автоматический пересчет при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    setTimeout(addRecalcButton, 100); // Небольшая задержка для гарантии
+    console.log('Страница загружена, начинаем расчет (дробные числа)...');
+    calculateAllTotals();
+    setTimeout(addRecalcButton, 100);
 });
+
+// Функция для ручного пересчета (можно вызвать из консоли)
+window.recalculate = function() {
+    calculateAllTotals();
+};
