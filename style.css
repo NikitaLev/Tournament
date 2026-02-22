@@ -340,3 +340,210 @@ body {
         min-width: 120px;
     }
 }
+.score-legend {
+    margin-top: 15px;
+    padding: 12px 16px;
+    background: #f8fafc;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    font-size: 0.85em;
+    border: 1px solid #e2e8f0;
+    width: 100%;
+}
+
+.legend-title {
+    font-weight: 600;
+    color: #4a5568;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.legend-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px 20px;
+}
+
+.legend-items span {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 2px 8px;
+    border-radius: 20px;
+    color: #2d3748;
+}
+
+.legend-item-legendary { 
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #78350f !important;
+    font-weight: 600;
+}
+.legend-item-gold { background: #fef3c7; color: #92400e; }
+.legend-item-silver { background: #f1f5f9; color: #334155; }
+.legend-item-bronze { background: #ffedd5; color: #9a3412; }
+.legend-item-good { background: #dcfce7; color: #166534; }
+.legend-item-medium { background: #dbeafe; color: #1e40af; }
+.legend-item-low { background: #fff1f2; color: #9f1239; }
+.legend-item-minimal { background: #e2e8f0; color: #334155; }
+
+/* Стили для подсветки строк */
+tr.score-legendary {
+    background: linear-gradient(90deg, #fef9c3, #fef08a) !important;
+    font-weight: 700;
+    border-left: 5px solid #fbbf24;
+    box-shadow: 0 2px 10px rgba(251, 191, 36, 0.3);
+}
+
+tr.score-legendary td:first-child {
+    background: linear-gradient(90deg, #fef9c3, #fef08a) !important;
+    font-weight: 700;
+}
+
+tr.score-gold {
+    background-color: #fef3c7 !important;
+}
+
+tr.score-gold td:first-child {
+    background-color: #fef3c7 !important;
+}
+
+tr.score-silver {
+    background-color: #f1f5f9 !important;
+}
+
+tr.score-silver td:first-child {
+    background-color: #f1f5f9 !important;
+}
+
+tr.score-bronze {
+    background-color: #ffedd5 !important;
+}
+
+tr.score-bronze td:first-child {
+    background-color: #ffedd5 !important;
+}
+
+tr.score-good {
+    background-color: #dcfce7 !important;
+}
+
+tr.score-good td:first-child {
+    background-color: #dcfce7 !important;
+}
+
+tr.score-medium {
+    background-color: #dbeafe !important;
+}
+
+tr.score-medium td:first-child {
+    background-color: #dbeafe !important;
+}
+
+tr.score-low {
+    background-color: #fff1f2 !important;
+}
+
+tr.score-low td:first-child {
+    background-color: #fff1f2 !important;
+}
+
+tr.score-minimal {
+    background-color: #e2e8f0 !important;
+}
+
+tr.score-minimal td:first-child {
+    background-color: #e2e8f0 !important;
+}
+
+/* Анимация для победителей */
+@keyframes winnerPulse {
+    0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0.7); }
+    70% { box-shadow: 0 0 0 10px rgba(251, 191, 36, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+}
+
+tr.score-legendary {
+    animation: winnerPulse 2s infinite;
+}
+
+
+/* Стиль для ячейки бонусных баллов - делаем её относительной для позиционирования */
+.score-bonus {
+    position: relative;
+    padding: 8px 4px 16px 4px; /* Увеличиваем нижний отступ для Ci */
+    font-weight: 500;
+    color: #b45309;
+    vertical-align: top;
+    min-width: 60px;
+}
+
+/* Бейдж Ci - маленький овал под числом */
+.ci-badge {
+    position: absolute;
+    bottom: 2px;
+    left: 0%;
+    transform: translateY(30%);
+    background-color: #e2e8f0;
+    color: #4b5563;
+    font-size: 0.65em;
+    font-weight: 500;
+    padding: 2px 8px;
+    border-radius: 20px; /* Овальная форма */
+    white-space: nowrap;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    letter-spacing: 0.3px;
+    border: 1px solid #cbd5e0;
+    line-height: 1.2;
+    min-width: 30px;
+    text-align: center;
+}
+
+/* Для отрицательных значений Ci */
+.ci-badge.negative {
+    background-color: #fee2e2;
+    color: #b91c1c;
+    border-color: #fecaca;
+}
+
+/* Для нулевых Ci - более бледные */
+.ci-badge.zero {
+    background-color: #f1f5f9;
+    color: #94a3b8;
+    border-color: #e2e8f0;
+}
+
+/* Обновляем стиль основной ячейки бонусов для лучшего отображения */
+.score-bonus {
+    position: relative;
+    padding: 8px 4px 18px 4px;
+    font-weight: 500;
+    color: #b45309;
+    vertical-align: top;
+    min-width: 65px;
+    line-height: 1.4;
+}
+
+/* Для иконок в основной части */
+.score-bonus i {
+    margin-right: 2px;
+    font-size: 0.8em;
+    opacity: 0.7;
+}
+
+/* Адаптация для мобильных */
+@media (max-width: 768px) {
+    .score-bonus {
+        min-width: 55px;
+        padding: 6px 2px 16px 2px;
+    }
+    
+    .ci-badge {
+        font-size: 0.55em;
+        padding: 1px 4px;
+        min-width: 30px;
+    }
+}
