@@ -193,7 +193,7 @@
           "nickname": "Трудный",
           "role": "м",
           "main_score": 0.0,
-          "bonus_score": 1.0,
+          "bonus_score": -1.0,
           "first_shot": "",
           "winning_team": "unknown"
         },
