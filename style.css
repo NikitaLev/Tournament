@@ -602,3 +602,15 @@ tr.score-legendary {
     text-align: center;
     white-space: nowrap;
 }
+
+/* Для красивой шляпы */
+.fa-hat-cowboy {
+    color: #000000;  /* Коричневый - как настоящая шляпа */
+    margin-right: 4px;
+}
+
+/* Или с золотым отливом для важности */
+.fa-hat-cowboy.don {
+    color: #000000;
+    text-shadow: 0 0 3px rgba(184, 134, 11, 0.5);
+}

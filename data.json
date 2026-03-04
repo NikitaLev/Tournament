@@ -1,0 +1,431 @@
+{
+  "games": [
+    {
+      "name": "Игра 1",
+      "players": [
+        {
+          "nickname": "Трудный",
+          "role": "д",
+          "main_score": 2.5,
+          "bonus_score": 3.0,
+          "first_shot": "",
+          "winning_team": "mafia"
+        },
+        {
+          "nickname": "Капрал",
+          "role": "м",
+          "main_score": 2.5,
+          "bonus_score": 2.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Вишня",
+          "role": "ш",
+          "main_score": 0.0,
+          "bonus_score": 0.75,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Кевин",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 2.25,
+          "first_shot": "3 9 7",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Мотылёк",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Иной",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Новичок",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Крис",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "JG",
+          "role": "м",
+          "main_score": 2.5,
+          "bonus_score": 3.75,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Роджер",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Игра 2",
+      "players": [
+        {
+          "nickname": "Иной",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 4.0,
+          "first_shot": "2 4 9",
+          "winning_team": "mafia"
+        },
+        {
+          "nickname": "Трудный",
+          "role": "д",
+          "main_score": 2.5,
+          "bonus_score": 3.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Мотылёк",
+          "role": "м",
+          "main_score": 2.5,
+          "bonus_score": 3.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "JG",
+          "role": "м",
+          "main_score": 2.5,
+          "bonus_score": 3.75,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Крис",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 4.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Новичок",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 2.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Роджер",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Капрал",
+          "role": "ш",
+          "main_score": 0.0,
+          "bonus_score": 2.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Кевин",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 2.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Вишня",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Игра 3",
+      "players": [
+        {
+          "nickname": "Капрал",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 3.25,
+          "first_shot": "",
+          "winning_team": "peace"
+        },
+        {
+          "nickname": "Мотылёк",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 3.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Трудный",
+          "role": "м",
+          "main_score": 0.0,
+          "bonus_score": 1.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Роджер",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 2.0,
+          "first_shot": "5 2 8",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Иной",
+          "role": "ш",
+          "main_score": 2.5,
+          "bonus_score": 4.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Крис",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 0.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Новичок",
+          "role": "д",
+          "main_score": 0.0,
+          "bonus_score": 1.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Кевин",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 2.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Вишня",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 4.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "JG",
+          "role": "м",
+          "main_score": 0.0,
+          "bonus_score": 2.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Игра 4",
+      "players": [
+        {
+          "nickname": "Роджер",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.25,
+          "first_shot": "7 8 10",
+          "winning_team": "mafia"
+        },
+        {
+          "nickname": "Вишня",
+          "role": "ш",
+          "main_score": 0.0,
+          "bonus_score": 0.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Мотылёк",
+          "role": "д",
+          "main_score": 2.5,
+          "bonus_score": 3.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Новичок",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Иной",
+          "role": "м",
+          "main_score": 2.5,
+          "bonus_score": 4.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Кевин",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Трудный",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Капрал",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "JG",
+          "role": "м",
+          "main_score": 2.5,
+          "bonus_score": 4.75,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Крис",
+          "role": "",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Игра 5",
+      "players": [
+        {
+          "nickname": "Кевин",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 3.75,
+          "first_shot": "",
+          "winning_team": "peace"
+        },
+        {
+          "nickname": "Новичок",
+          "role": "ш",
+          "main_score": 2.5,
+          "bonus_score": 3.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Роджер",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 4.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Капрал",
+          "role": "д",
+          "main_score": 0.0,
+          "bonus_score": 1.75,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Мотылёк",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 3.0,
+          "first_shot": "2 4 8",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Вишня",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 3.75,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Трудный",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 4.0,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "JG",
+          "role": "м",
+          "main_score": 0.0,
+          "bonus_score": 2.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Иной",
+          "role": "м",
+          "main_score": 0.0,
+          "bonus_score": 1.5,
+          "first_shot": "",
+          "winning_team": "unknown"
+        },
+        {
+          "nickname": "Крис",
+          "role": "",
+          "main_score": 2.5,
+          "bonus_score": 1.25,
+          "first_shot": "",
+          "winning_team": "unknown"
+        }
+      ]
+    }
+  ],
+  "total_players": 10,
+  "total_games": 5
+}
