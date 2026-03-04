@@ -377,6 +377,7 @@ function addRecalcButton() {
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Страница загружена, начинаем расчет (дробные числа)...');
     calculateAllTotals();
+    
     setTimeout(addRecalcButton, 100);
 });
 
@@ -385,172 +386,11 @@ window.recalculate = function() {
     calculateAllTotals();
 };
 
-
-// Функция для подсветки игроков по сумме баллов (градация)
-function highlightPlayersByScore() {
-    console.log('Подсвечиваем игроков по сумме баллов...');
-    
-    // Находим все итоговые ячейки
-    const grandTotalCells = document.querySelectorAll('td.grand-total');
-    let scores = [];
-    
-    // Собираем все суммы
-    grandTotalCells.forEach(cell => {
-        const cellText = cell.textContent.replace(',', '.');
-        const value = parseFloat(cellText);
-        if (!isNaN(value)) {
-            scores.push(value);
-        }
-    });
-    
-    if (scores.length === 0) return;
-    
-    // Находим min, max и среднее
-    const maxScore = Math.max(...scores);
-    const minScore = Math.min(...scores);
-    const avgScore = scores.reduce((a, b) => a + b, 0) / scores.length;
-    const range = maxScore - minScore;
-    
-    console.log(`Диапазон: от ${minScore} до ${maxScore}, среднее: ${avgScore.toFixed(2)}`);
-    
-    // Удаляем старую подсветку
-    document.querySelectorAll('tr').forEach(row => {
-        row.classList.remove(
-            'score-legendary', 'score-gold', 'score-silver', 
-            'score-bronze', 'score-good', 'score-medium', 
-            'score-low', 'score-minimal'
-        );
-    });
-    
-    // Подсвечиваем каждую строку в зависимости от суммы
-    grandTotalCells.forEach((cell, index) => {
-        const row = cell.closest('tr');
-        if (!row) return;
-        
-        const cellText = cell.textContent.replace(',', '.');
-        const score = parseFloat(cellText);
-        
-        // Определяем категорию
-        if (score === maxScore) {
-            row.classList.add('score-legendary'); // Победители (особая подсветка)
-        } else if (score >= maxScore - range * 0.2) {
-            row.classList.add('score-gold'); // Близкие к лидерам (топ-20% диапазона)
-        } else if (score >= maxScore - range * 0.4) {
-            row.classList.add('score-silver'); // Выше среднего
-        } else if (score >= avgScore) {
-            row.classList.add('score-bronze'); // Чуть выше среднего
-        } else if (score >= avgScore - range * 0.2) {
-            row.classList.add('score-good'); // Чуть ниже среднего
-        } else if (score >= minScore + range * 0.3) {
-            row.classList.add('score-medium'); // Ниже среднего
-        } else if (score > minScore) {
-            row.classList.add('score-low'); // Близкие к минимуму
-        } else {
-            row.classList.add('score-minimal'); // Минимум
-        }
-    });
-    
-    
-    console.log('Подсветка применена!');
-}
-
-// Функция для сброса подсветки
-function resetHighlight() {
-    document.querySelectorAll('tr').forEach(row => {
-        row.classList.remove(
-            'score-legendary', 'score-gold', 'score-silver', 
-            'score-bronze', 'score-good', 'score-medium', 
-            'score-low', 'score-minimal'
-        );
-    });
-    
-    // Удаляем легенду
-    const legend = document.querySelector('.score-legend');
-    if (legend) legend.remove();
-    
-    console.log('Подсветка сброшена');
-}
-
-// Расширяем функцию обновления статистики
-const originalUpdateFooterStats = updateFooterStats;
-updateFooterStats = function() {
-    originalUpdateFooterStats();
-    // Автоматически подсвечиваем после обновления статистики
-    highlightPlayersByScore();
-};
-
-// Добавляем кнопки управления в подвал
-function addHighlightButtons() {
-    const footer = document.querySelector('.tournament-footer');
-    if (!footer) return;
-    
-    // Создаём контейнер для кнопок
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'highlight-buttons';
-    buttonContainer.style.display = 'flex';
-    buttonContainer.style.gap = '10px';
-    buttonContainer.style.marginTop = '10px';
-    buttonContainer.style.flexWrap = 'wrap';
-    
-    // Кнопка подсветки
-    const highlightBtn = document.createElement('button');
-    highlightBtn.innerHTML = '<i class="fas fa-highlighter"></i> Подсветить градацию';
-    highlightBtn.onclick = highlightPlayersByScore;
-    highlightBtn.style.background = 'linear-gradient(135deg, #10b981, #059669)';
-    highlightBtn.style.color = 'white';
-    highlightBtn.style.border = 'none';
-    highlightBtn.style.padding = '8px 16px';
-    highlightBtn.style.borderRadius = '30px';
-    highlightBtn.style.fontSize = '0.9em';
-    highlightBtn.style.cursor = 'pointer';
-    highlightBtn.style.display = 'flex';
-    highlightBtn.style.alignItems = 'center';
-    highlightBtn.style.gap = '6px';
-    
-    // Кнопка сброса
-    const resetBtn = document.createElement('button');
-    resetBtn.innerHTML = '<i class="fas fa-undo"></i> Сбросить подсветку';
-    resetBtn.onclick = resetHighlight;
-    resetBtn.style.background = 'linear-gradient(135deg, #94a3b8, #64748b)';
-    resetBtn.style.color = 'white';
-    resetBtn.style.border = 'none';
-    resetBtn.style.padding = '8px 16px';
-    resetBtn.style.borderRadius = '30px';
-    resetBtn.style.fontSize = '0.9em';
-    resetBtn.style.cursor = 'pointer';
-    resetBtn.style.display = 'flex';
-    resetBtn.style.alignItems = 'center';
-    resetBtn.style.gap = '6px';
-    
-    // Эффекты наведения
-    [highlightBtn, resetBtn].forEach(btn => {
-        btn.onmouseover = function() {
-            this.style.opacity = '0.9';
-            this.style.transform = 'scale(1.02)';
-        };
-        btn.onmouseout = function() {
-            this.style.opacity = '1';
-            this.style.transform = 'scale(1)';
-        };
-    });
-    
-    buttonContainer.appendChild(highlightBtn);
-    buttonContainer.appendChild(resetBtn);
-    footer.appendChild(buttonContainer);
-}
-
 // Обновляем DOMContentLoaded
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Страница загружена, начинаем расчет...');
     calculateAllTotals();
     setTimeout(() => {
         addRecalcButton();
-        addHighlightButtons();
-        // Автоматическая подсветка при загрузке
-        setTimeout(highlightPlayersByScore, 200);
     }, 100);
 });
-
-// Добавляем функции в глобальную область видимости
-window.highlightPlayers = highlightPlayersByScore;
-window.resetHighlight = resetHighlight;
