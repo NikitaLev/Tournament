@@ -426,6 +426,127 @@
       ]
     }
   ],
-  "total_players": 10,
-  "total_games": 5
+  "nominations": {
+    "best_don": {
+      "player": "Трудный",
+      "total_score": 11.25,
+      "games_count": 2,
+      "games_details": [
+        {
+          "game": 1,
+          "score": 5.5,
+          "main": 2.5,
+          "bonus": 3.0,
+          "place": "1"
+        },
+        {
+          "game": 2,
+          "score": 5.75,
+          "main": 2.5,
+          "bonus": 3.25,
+          "place": "2"
+        }
+      ]
+    },
+    "best_sheriff": {
+      "player": "Иной",
+      "total_score": 6.5,
+      "games_count": 1,
+      "games_details": [
+        {
+          "game": 3,
+          "score": 6.5,
+          "main": 2.5,
+          "bonus": 4.0,
+          "place": "5"
+        }
+      ]
+    },
+    "best_mafia": {
+      "player": "JG",
+      "total_score": 24.25,
+      "games_count": 5,
+      "games_details": [
+        {
+          "game": 1,
+          "score": 6.25,
+          "main": 2.5,
+          "bonus": 3.75,
+          "place": "9"
+        },
+        {
+          "game": 2,
+          "score": 6.25,
+          "main": 2.5,
+          "bonus": 3.75,
+          "place": "4"
+        },
+        {
+          "game": 3,
+          "score": 2.0,
+          "main": 0.0,
+          "bonus": 2.0,
+          "place": "10"
+        },
+        {
+          "game": 4,
+          "score": 7.25,
+          "main": 2.5,
+          "bonus": 4.75,
+          "place": "9"
+        },
+        {
+          "game": 5,
+          "score": 2.5,
+          "main": 0.0,
+          "bonus": 2.5,
+          "place": "8"
+        }
+      ]
+    },
+    "best_civil": {
+      "player": "Кевин",
+      "total_score": 17.25,
+      "games_count": 5,
+      "games_details": [
+        {
+          "game": 1,
+          "score": 2.25,
+          "main": 0.0,
+          "bonus": 2.25,
+          "place": "4"
+        },
+        {
+          "game": 2,
+          "score": 2.25,
+          "main": 0.0,
+          "bonus": 2.25,
+          "place": "9"
+        },
+        {
+          "game": 3,
+          "score": 5.0,
+          "main": 2.5,
+          "bonus": 2.5,
+          "place": "8"
+        },
+        {
+          "game": 4,
+          "score": 1.5,
+          "main": 0.0,
+          "bonus": 1.5,
+          "place": "6"
+        },
+        {
+          "game": 5,
+          "score": 6.25,
+          "main": 2.5,
+          "bonus": 3.75,
+          "place": "1"
+        }
+      ]
+    }
+  },
+  "total_games": 5,
+  "total_players": 10
 }
